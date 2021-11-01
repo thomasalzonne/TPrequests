@@ -1,0 +1,13 @@
+
+
+
+<main>
+  <button [class.red]="count%5" [class.blue]="!(count%5)" class="w-full h-20 font-medium text-white bg-red-400">Hello</button>
+  <div>clicked {{count}} time(s)</div>
+</main>
+<todo-todo  (output)="hello()" [input] = "'Bonjour je suis un input'"></todo-todo>
+<todo-todo-welcome></todo-todo-welcome>
+<div *ngFor="let dto of dtos">
+  {{dto.message}}
+</div>
+<router-outlet></router-outlet>

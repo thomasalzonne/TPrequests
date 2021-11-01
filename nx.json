@@ -14,12 +14,7 @@
     "default": {
       "runner": "@nrwl/workspace/tasks-runners/default",
       "options": {
-        "cacheableOperations": [
-          "build",
-          "lint",
-          "test",
-          "e2e"
-        ]
+        "cacheableOperations": ["build", "lint", "test", "e2e"]
       }
     }
   },
@@ -31,5 +26,32 @@
       }
     ]
   },
-  "projects": {}
+  "projects": {
+    "todo-angular-lib": {
+      "tags": []
+    },
+    "todo-api": {
+      "tags": []
+    },
+    "todo-apiresource-lib": {
+      "tags": []
+    },
+    "todo-front": {
+      "tags": []
+    },
+    "todo-front-e2e": {
+      "tags": [],
+      "implicitDependencies": ["todo-front"]
+    },
+    "todo-nest": {
+      "tags": []
+    },
+    "todo-react": {
+      "tags": []
+    },
+    "todo-react-e2e": {
+      "tags": [],
+      "implicitDependencies": ["todo-react"]
+    }
+  }
 }

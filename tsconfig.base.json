@@ -14,7 +14,10 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@todo/todo-angular-lib": ["libs/todo-angular-lib/src/index.ts"],
+      "@todo/todo-apiresource-lib": ["libs/todo-apiresource-lib/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

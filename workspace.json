@@ -1,7 +1,466 @@
 {
   "version": 2,
-  "projects": {},
+  "projects": {
+    "todo-angular-lib": {
+      "projectType": "library",
+      "root": "libs/todo-angular-lib",
+      "sourceRoot": "libs/todo-angular-lib/src",
+      "prefix": "todo",
+      "targets": {
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/libs/todo-angular-lib"
+          ],
+          "options": {
+            "jestConfig": "libs/todo-angular-lib/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/todo-angular-lib/src/**/*.ts",
+              "libs/todo-angular-lib/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "todo-api": {
+      "root": "apps/todo-api",
+      "sourceRoot": "apps/todo-api/src",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/node:build",
+          "outputs": [
+            "{options.outputPath}"
+          ],
+          "options": {
+            "outputPath": "dist/apps/todo-api",
+            "main": "apps/todo-api/src/main.ts",
+            "tsConfig": "apps/todo-api/tsconfig.app.json",
+            "assets": [
+              "apps/todo-api/src/assets"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/todo-api/src/environments/environment.ts",
+                  "with": "apps/todo-api/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "todo-api:build"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": [
+            "{options.outputFile}"
+          ],
+          "options": {
+            "lintFilePatterns": [
+              "apps/todo-api/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/apps/todo-api"
+          ],
+          "options": {
+            "jestConfig": "apps/todo-api/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "todo-apiresource-lib": {
+      "root": "libs/todo-apiresource-lib",
+      "sourceRoot": "libs/todo-apiresource-lib/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": [
+            "{options.outputFile}"
+          ],
+          "options": {
+            "lintFilePatterns": [
+              "libs/todo-apiresource-lib/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/libs/todo-apiresource-lib"
+          ],
+          "options": {
+            "jestConfig": "libs/todo-apiresource-lib/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "todo-front": {
+      "projectType": "application",
+      "root": "apps/todo-front",
+      "sourceRoot": "apps/todo-front/src",
+      "prefix": "todo",
+      "targets": {
+        "build": {
+          "executor": "@angular-devkit/build-angular:browser",
+          "outputs": [
+            "{options.outputPath}"
+          ],
+          "options": {
+            "outputPath": "dist/apps/todo-front",
+            "index": "apps/todo-front/src/index.html",
+            "main": "apps/todo-front/src/main.ts",
+            "polyfills": "apps/todo-front/src/polyfills.ts",
+            "tsConfig": "apps/todo-front/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "apps/todo-front/src/favicon.ico",
+              "apps/todo-front/src/assets"
+            ],
+            "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
+              "apps/todo-front/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/todo-front/src/environments/environment.ts",
+                  "with": "apps/todo-front/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "executor": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "todo-front:build:production"
+            },
+            "development": {
+              "browserTarget": "todo-front:build:development",
+              "proxyConfig": "apps/todo-front/proxy.conf.json"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "executor": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "todo-front:build"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/todo-front/src/**/*.ts",
+              "apps/todo-front/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/apps/todo-front"
+          ],
+          "options": {
+            "jestConfig": "apps/todo-front/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "todo-front-e2e": {
+      "root": "apps/todo-front-e2e",
+      "sourceRoot": "apps/todo-front-e2e/src",
+      "projectType": "application",
+      "targets": {
+        "e2e": {
+          "executor": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/todo-front-e2e/cypress.json",
+            "devServerTarget": "todo-front:serve:development",
+            "tsConfig": "apps/todo-front-e2e/tsconfig.json"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "todo-front:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": [
+            "{options.outputFile}"
+          ],
+          "options": {
+            "lintFilePatterns": [
+              "apps/todo-front-e2e/**/*.{js,ts}"
+            ]
+          }
+        }
+      }
+    },
+    "todo-nest": {
+      "root": "apps/todo-nest",
+      "sourceRoot": "apps/todo-nest/src",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/node:build",
+          "outputs": [
+            "{options.outputPath}"
+          ],
+          "options": {
+            "outputPath": "dist/apps/todo-nest",
+            "main": "apps/todo-nest/src/main.ts",
+            "tsConfig": "apps/todo-nest/tsconfig.app.json",
+            "assets": [
+              "apps/todo-nest/src/assets"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/todo-nest/src/environments/environment.ts",
+                  "with": "apps/todo-nest/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "todo-nest:build"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": [
+            "{options.outputFile}"
+          ],
+          "options": {
+            "lintFilePatterns": [
+              "apps/todo-nest/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/apps/todo-nest"
+          ],
+          "options": {
+            "jestConfig": "apps/todo-nest/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "todo-react": {
+      "root": "apps/todo-react",
+      "sourceRoot": "apps/todo-react/src",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/web:build",
+          "outputs": [
+            "{options.outputPath}"
+          ],
+          "options": {
+            "outputPath": "dist/apps/todo-react",
+            "index": "apps/todo-react/src/index.html",
+            "baseHref": "/",
+            "main": "apps/todo-react/src/main.tsx",
+            "polyfills": "apps/todo-react/src/polyfills.ts",
+            "tsConfig": "apps/todo-react/tsconfig.app.json",
+            "assets": [
+              "apps/todo-react/src/favicon.ico",
+              "apps/todo-react/src/assets"
+            ],
+            "styles": [
+              "apps/todo-react/src/styles.scss"
+            ],
+            "scripts": [],
+            "webpackConfig": "@nrwl/react/plugins/webpack"
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/todo-react/src/environments/environment.ts",
+                  "with": "apps/todo-react/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/web:dev-server",
+          "options": {
+            "buildTarget": "todo-react:build",
+            "hmr": true
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "todo-react:build:production",
+              "hmr": false
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": [
+            "{options.outputFile}"
+          ],
+          "options": {
+            "lintFilePatterns": [
+              "apps/todo-react/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/apps/todo-react"
+          ],
+          "options": {
+            "jestConfig": "apps/todo-react/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "todo-react-e2e": {
+      "root": "apps/todo-react-e2e",
+      "sourceRoot": "apps/todo-react-e2e/src",
+      "projectType": "application",
+      "targets": {
+        "e2e": {
+          "executor": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/todo-react-e2e/cypress.json",
+            "devServerTarget": "todo-react:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "todo-react:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": [
+            "{options.outputFile}"
+          ],
+          "options": {
+            "lintFilePatterns": [
+              "apps/todo-react-e2e/**/*.{js,ts}"
+            ]
+          }
+        }
+      }
+    }
+  },
   "cli": {
-    "defaultCollection": "@nrwl/workspace"
-  }
+    "defaultCollection": "@nrwl/angular"
+  },
+  "generators": {
+    "@nrwl/angular:application": {
+      "style": "scss",
+      "linter": "eslint",
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "style": "scss",
+      "linter": "eslint",
+      "unitTestRunner": "jest"
+    },
+    "@nrwl/angular:component": {
+      "style": "scss"
+    },
+    "@nrwl/react": {
+      "application": {
+        "style": "scss",
+        "linter": "eslint",
+        "babel": true
+      },
+      "component": {
+        "style": "scss"
+      },
+      "library": {
+        "style": "scss",
+        "linter": "eslint"
+      }
+    }
+  },
+  "defaultProject": "todo-front"
 }
