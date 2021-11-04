@@ -1,5 +1,5 @@
-import { Body, Controller, Get, Param } from '@nestjs/common';
-import { CrudService } from './crud.service';
+import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post } from '@nestjs/common';
+import { CrudService, TaskModel } from './crud.service';
 
 @Controller('crud')
 export class CrudController {
@@ -15,5 +15,11 @@ export class CrudController {
     findAll(){
         return this.crudService.findAll()
     }
-
+    
+    @Post()
+    @HttpCode(HttpStatus.CREATED)
+    create(@Body() task: TaskModel){
+        return this.crudService.create(task)
+    }
+    
 }

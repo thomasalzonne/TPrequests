@@ -1,25 +1,31 @@
 import { Injectable } from '@nestjs/common';
 
-interface TaskModel{
+export interface TaskModel{
     id : number;
     name : string;
-    done : boolean
+    done : boolean;
 }
 
 @Injectable()
 export class CrudService {
 
-    tasks : TaskModel[] = [{
+    private tasks : TaskModel[] = [{
         id : 1,
-        name : 'SALUT FDPM',
+        name : 'SALUT',
         done : false
     }]
-
+    private id = 0
     getById(id:number){
         return this.tasks.find((task) => task.id === id)
     }   
 
     findAll(){
         return this.tasks
+    }
+
+    create(task : TaskModel){
+        task.id = this.id
+        this.tasks.push(task)
+        this.id ++
     }
 }
