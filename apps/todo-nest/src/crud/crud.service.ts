@@ -9,14 +9,21 @@ export interface TaskModel{
 @Injectable()
 export class CrudService {
 
-    private tasks : TaskModel[] = [{
+    private tasks : TaskModel[] = [
+        {
         id : 1,
         name : 'SALUT',
         done : false
-    }]
+        },
+        {
+        id : 2,
+        name : 'HOLA',
+        done : false
+        }
+    ]
     private id = 0
     getById(id:number){
-        return this.tasks.find((task) => task.id === id)
+        return this.tasks.find((task) => task.id === +id)
     }   
 
     findAll(){

@@ -14,6 +14,7 @@ export class AppComponent {
   title = 'todo-front';
   clicked = false;
   count = 0;
+  tasks : any[] = [];
   dtos = this.welcomeService.findAll();
   constructor(private http: HttpClient, private welcomeService : WelcomeServiceService){
     http.get<WelcomeDto>('/api/').subscribe((res) => {
@@ -22,7 +23,9 @@ export class AppComponent {
     http.get(`/api${WELCOME_RESOURCE_PATH}`).subscribe((res) => {
       console.log(res)
     })
-
+    http.get('/api/crud').subscribe((res : any) => {
+      this.tasks = res
+    })
   }
   hello(){
     this.count += 1
